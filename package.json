@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/Gilson-Nunes/playground-auth-nodejs#readme",
 	"devDependencies": {
+		"@types/node": "^25.0.3",
 		"typescript": "^5.9.3"
 	}
 }
