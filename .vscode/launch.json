@@ -1,34 +1,34 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "name": "Debug: Current File (tsx)",
-      "type": "node",
-      "request": "launch",
-      "runtimeExecutable": "tsx",
-      "runtimeArgs": ["watch", "--env-file", ".env", "${file}"],
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
-    },
-    {
-      "name": "Debug: Current Test File (Vitest)",
-      "type": "node",
-      "request": "launch",
-      "autoAttachChildProcesses": true,
-      "skipFiles": [
-        "<node_internals>/**",
-        "${workspaceFolder}/node_modules/**"
-      ],
-      "program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
-      "args": [
-        "${relativeFile}",
-        "--test-timeout=0",
-        "--hook-timeout=0",
-        "--no-file-parallelism"
-      ],
-      "smartStep": true,
-      "console": "integratedTerminal"
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug: Current File (tsx)",
+			"type": "node",
+			"request": "launch",
+			"runtimeExecutable": "tsx",
+			"runtimeArgs": ["watch", "--env-file", ".env", "${file}"],
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+			"skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+		},
+		{
+			"name": "Debug: Current Test File (Vitest)",
+			"type": "node",
+			"request": "launch",
+			"autoAttachChildProcesses": true,
+			"skipFiles": [
+				"<node_internals>/**",
+				"${workspaceFolder}/node_modules/**"
+			],
+			"program": "${workspaceRoot}/node_modules/vitest/vitest.mjs",
+			"args": [
+				"${relativeFile}",
+				"--test-timeout=0",
+				"--hook-timeout=0",
+				"--no-file-parallelism"
+			],
+			"smartStep": true,
+			"console": "integratedTerminal"
+		}
+	]
 }

@@ -1,25 +1,25 @@
-import { loadEnv } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { defineConfig } from "vitest/config";
+import { loadEnv } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig(({ mode }) => ({
 	test: {
 		globals: true,
-		environment: "node",
+		environment: 'node',
 		clearMocks: true,
-		pool: "threads",
+		pool: 'threads',
 		coverage: {
-			provider: "v8",
-			reporter: ["text", "json", "html"],
-			reportsDirectory: "./coverage",
+			provider: 'v8',
+			reporter: ['text', 'json', 'html'],
+			reportsDirectory: './coverage',
 			all: true,
-			include: ["src/**/*.ts"],
-			exclude: ["tests/**/*.ts"],
+			include: ['src/**/*.ts'],
+			exclude: ['tests/**/*.ts'],
 		},
 		passWithNoTests: false,
 		env: {
-			CORS_ORIGIN: "http://localhost:3000",
-			...loadEnv(mode, process.cwd(), ""),
+			CORS_ORIGIN: 'http://localhost:3000',
+			...loadEnv(mode, process.cwd(), ''),
 		},
 	},
 	plugins: [tsconfigPaths()],
