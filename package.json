@@ -1,0 +1,21 @@
+{
+	"name": "playground-auth-nodejs",
+	"version": "1.0.0",
+	"description": "Repository for exploring authentication flows with NodeJS in backend projects",
+	"main": "./dist/index.js",
+	"scripts": {
+		"test": "vitest"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Gilson-Nunes/playground-auth-nodejs.git"
+	},
+	"keywords": [],
+	"author": "Gilson Nunes",
+	"license": "ISC",
+	"type": "module",
+	"bugs": {
+		"url": "https://github.com/Gilson-Nunes/playground-auth-nodejs/issues"
+	},
+	"homepage": "https://github.com/Gilson-Nunes/playground-auth-nodejs#readme"
+}
