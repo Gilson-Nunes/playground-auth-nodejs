@@ -13,7 +13,7 @@ describe('Api routes', () => {
 		});
 	});
 
-	describe('GET /', () => {
+	describe('GET /protected', () => {
 		it('should show the message "Access denied" and status code 200', async () => {
 			const response = await app.inject({
 				method: 'GET',
