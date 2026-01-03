@@ -1,6 +1,4 @@
-import { serverBuild } from '@/app';
-
-const app = serverBuild();
+import { app } from '../helpers/server';
 
 describe('Api routes', () => {
 	describe('GET /', () => {
