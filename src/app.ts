@@ -1,11 +1,10 @@
 import Fastify, { type FastifyServerOptions } from 'fastify';
+import { apiRoutes } from './routes/apiRoutes';
 
 export function serverBuild(opts: FastifyServerOptions = {}) {
 	const app = Fastify(opts);
 
-	app.get('/', async (_request, reply) => {
-		reply.status(200).send({ data: 'Home' });
-	});
+	app.register(apiRoutes);
 
 	return app;
 }
