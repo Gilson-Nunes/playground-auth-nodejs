@@ -12,4 +12,16 @@ describe('Api routes', () => {
 			expect(response.json()).toStrictEqual({ data: 'Home' });
 		});
 	});
+
+	describe('GET /', () => {
+		it('should show the message "Access denied" and status code 200', async () => {
+			const response = await app.inject({
+				method: 'GET',
+				url: '/protected',
+			});
+
+			expect(response.statusCode).toBe(401);
+			expect(response.json()).toStrictEqual({ data: 'Access denied' });
+		});
+	});
 });
