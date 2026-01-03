@@ -4,6 +4,7 @@
 	"description": "Repository for exploring authentication flows with NodeJS in backend projects",
 	"main": "./dist/index.js",
 	"scripts": {
+		"dev": "npx tsx --env-file .env src/index.ts",
 		"check": "npx biome check --write --unsafe",
 		"test": "vitest"
 	},
