@@ -17,10 +17,7 @@ export default defineConfig(({ mode }) => ({
 			exclude: ['tests/**/*.ts'],
 		},
 		passWithNoTests: false,
-		env: {
-			CORS_ORIGIN: 'http://localhost:3000',
-			...loadEnv(mode, process.cwd(), ''),
-		},
+		env: loadEnv(mode, process.cwd(), ''),
 	},
 	plugins: [tsconfigPaths()],
 	esbuild: {
