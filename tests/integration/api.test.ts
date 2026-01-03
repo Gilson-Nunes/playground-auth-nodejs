@@ -14,6 +14,22 @@ describe('Api routes', () => {
 	});
 
 	describe('GET /protected', () => {
+		it('should show the message "Content protected" and status code 200', async () => {
+			const response = await app.inject({
+				method: 'GET',
+				url: '/protected',
+				headers: {
+					authorization: `Basic ${Buffer.from(
+						'username:password',
+						'utf8',
+					).toString('base64')}`,
+				},
+			});
+
+			expect(response.statusCode).toBe(200);
+			expect(response.json()).toStrictEqual({ data: 'Content protected' });
+		});
+
 		it('should show the message "Access denied" and status code 200', async () => {
 			const response = await app.inject({
 				method: 'GET',
