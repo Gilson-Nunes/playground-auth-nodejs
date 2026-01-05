@@ -1,4 +1,4 @@
-import { app } from '../helpers/server';
+import { app } from './setup';
 
 describe('Api routes', () => {
 	describe('GET /', () => {
