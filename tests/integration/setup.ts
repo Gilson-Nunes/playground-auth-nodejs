@@ -21,6 +21,17 @@ export async function startDatabase() {
 	process.env.DATABASE_URL = container.getConnectionUri();
 }
 
+async function initializeDatabase() {
+	dbPool = getDbPool();
+	await dbPool.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(30) NOT NULL UNIQUE,
+      password VARCHAR(60) NOT NULL
+    );
+  `);
+}
+
 export async function stopDatabase() {
 	await dbPool.end();
 	await container.stop();
@@ -28,9 +39,22 @@ export async function stopDatabase() {
 
 beforeAll(async () => {
 	await startDatabase();
-	dbPool = getDbPool();
+	await initializeDatabase();
 	app = await createTestServer();
 }, 60000);
+
+afterEach(async () => {
+	await dbPool.query(`
+		DO $$
+		DECLARE
+			r RECORD;
+		BEGIN
+			FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP
+				EXECUTE 'TRUNCATE TABLE ' || quote_ident(r.tablename) || ' RESTART IDENTITY CASCADE';
+			END LOOP;
+		END $$;
+	`);
+});
 
 afterAll(async () => {
 	await app.close();
