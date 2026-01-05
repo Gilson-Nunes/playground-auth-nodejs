@@ -17,7 +17,6 @@ export default defineConfig(({ mode }) => ({
 			exclude: ['tests/**/*.ts'],
 		},
 		passWithNoTests: false,
-		setupFiles: ['./tests/integration/setup.ts'],
 		env: loadEnv(mode, process.cwd(), ''),
 	},
 	plugins: [tsconfigPaths()],
