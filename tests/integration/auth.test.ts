@@ -88,4 +88,47 @@ describe('Auth routes', () => {
 			expect(response.json()).toStrictEqual({ data: 'Login error' });
 		});
 	});
+
+	describe('GET /logout', () => {
+		it('should logout a logged user', async () => {
+			const saltRounds = 10;
+			const salt = await bcrypt.genSalt(saltRounds);
+			const hashPassword = await bcrypt.hash('password', salt);
+			const client = getDbPool();
+			await client.query(
+				'INSERT INTO users (username, password) VALUES ($1, $2)',
+				['username', hashPassword],
+			);
+			const loginResponse = await app.inject({
+				method: 'POST',
+				url: '/login',
+				payload: {
+					username: 'username',
+					password: 'password',
+				},
+			});
+			const loginToken = loginResponse.headers.authorization;
+
+			const logoutResponse = await app.inject({
+				method: 'GET',
+				url: '/logout',
+				headers: {
+					authorization: loginToken,
+				},
+			});
+
+			expect(logoutResponse.statusCode).toBe(204);
+			const logoutToken = logoutResponse.headers.authorization;
+			expect(logoutToken).toBeUndefined();
+
+			const protectedResponse = await app.inject({
+				method: 'GET',
+				url: '/protected',
+				headers: logoutToken ? { authorization: logoutToken } : undefined,
+			});
+
+			expect(protectedResponse.statusCode).toBe(401);
+			expect(protectedResponse.json()).toStrictEqual({ data: 'Access denied' });
+		});
+	});
 });
