@@ -30,7 +30,7 @@ describe('Api routes', () => {
 			expect(response.json()).toStrictEqual({ data: 'Content protected' });
 		});
 
-		it('should show the message "Access denied" and status code 200', async () => {
+		it('should show the message "Access denied" and status code 401', async () => {
 			const response = await app.inject({
 				method: 'GET',
 				url: '/protected',
