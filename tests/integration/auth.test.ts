@@ -67,8 +67,11 @@ describe('Auth routes', () => {
 
 			expect(response.statusCode).toBe(200);
 			expect(response.json()).toStrictEqual({ data: 'User logged' });
-			console.log(response.headers.authorization);
-			// expect(response.headers.authorization).toBeDefined();
+			const expectedToken = `Basic ${Buffer.from(
+				`username:${hashPassword}`,
+				'utf8',
+			).toString('base64')}`;
+			expect(response.headers.authorization).toBe(expectedToken);
 		});
 
 		it('should not login a not registered user', async () => {
