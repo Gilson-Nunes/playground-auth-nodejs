@@ -74,4 +74,8 @@ export const authRoutes = (app: FastifyInstance) => {
 			}
 		},
 	);
+
+	app.get('/logout', async (_request: FastifyRequest, reply: FastifyReply) => {
+		reply.status(204).send();
+	});
 };
