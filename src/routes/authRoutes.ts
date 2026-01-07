@@ -84,6 +84,7 @@ export const authRoutes = (app: FastifyInstance) => {
 	);
 
 	app.get('/logout', async (_request: FastifyRequest, reply: FastifyReply) => {
+		reply.clearCookie('accessToken', { path: '/' });
 		reply.status(204).send();
 	});
 };
