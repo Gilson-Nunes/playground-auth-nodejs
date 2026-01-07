@@ -12,7 +12,6 @@ export function serverBuild(opts: FastifyServerOptions = {}) {
 	});
 
 	const db = getDbPool();
-	app.decorate('db', db);
 	app.decorateRequest('db', {
 		getter: () => db,
 	});
