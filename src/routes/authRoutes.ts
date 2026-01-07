@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 import { DatabaseError } from 'pg';
+import { basicAuthHook } from '@/hooks/basicAuthHook';
 
 export const authRoutes = (app: FastifyInstance) => {
 	app.post(
@@ -64,6 +65,14 @@ export const authRoutes = (app: FastifyInstance) => {
 					'utf8',
 				).toString('base64')}`;
 				reply.header('Authorization', token);
+				reply.setCookie('accessToken', token, {
+					path: '/',
+					secure: process.env.NODE_ENV === 'production',
+					httpOnly: true,
+					sameSite: 'strict',
+					maxAge: 1800,
+				});
+
 				reply.status(200).send({ data: 'User logged' });
 			} catch (error) {
 				if (error instanceof DatabaseError) {
@@ -75,7 +84,14 @@ export const authRoutes = (app: FastifyInstance) => {
 		},
 	);
 
-	app.get('/logout', async (_request: FastifyRequest, reply: FastifyReply) => {
-		reply.status(204).send();
-	});
+	app.get(
+		'/logout',
+		{
+			onRequest: basicAuthHook,
+		},
+		async (_request: FastifyRequest, reply: FastifyReply) => {
+			reply.clearCookie('accessToken', { path: '/' });
+			reply.status(204).send();
+		},
+	);
 };

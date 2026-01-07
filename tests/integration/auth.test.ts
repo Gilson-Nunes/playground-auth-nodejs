@@ -72,6 +72,14 @@ describe('Auth routes', () => {
 				'utf8',
 			).toString('base64')}`;
 			expect(response.headers.authorization).toBe(expectedToken);
+
+			expect(response.cookies).toHaveLength(1);
+			const cookie = response.cookies[0];
+			expect(cookie.name).toBe('accessToken');
+			expect(cookie.value).toBe(expectedToken);
+			expect(cookie.path).toBe('/');
+			expect(cookie.httpOnly).toBe(true);
+			expect(cookie.sameSite).toBe('Strict');
 		});
 
 		it('should not login a not registered user', async () => {
@@ -108,6 +116,7 @@ describe('Auth routes', () => {
 				},
 			});
 			const loginToken = loginResponse.headers.authorization;
+			const loginCookie = loginResponse.cookies[0];
 
 			const logoutResponse = await app.inject({
 				method: 'GET',
@@ -115,11 +124,20 @@ describe('Auth routes', () => {
 				headers: {
 					authorization: loginToken,
 				},
+				cookies: {
+					accessToken: loginCookie.value,
+				},
 			});
 
 			expect(logoutResponse.statusCode).toBe(204);
 			const logoutToken = logoutResponse.headers.authorization;
 			expect(logoutToken).toBeUndefined();
+
+			expect(logoutResponse.cookies).toHaveLength(1);
+			const logoutCookie = logoutResponse.cookies[0];
+			expect(logoutCookie.name).toBe('accessToken');
+			expect(logoutCookie.value).toBe('');
+			expect(logoutCookie.maxAge).toBe(0);
 
 			const protectedResponse = await app.inject({
 				method: 'GET',
