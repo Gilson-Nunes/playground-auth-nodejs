@@ -116,6 +116,7 @@ describe('Auth routes', () => {
 				},
 			});
 			const loginToken = loginResponse.headers.authorization;
+			const loginCookie = loginResponse.cookies[0];
 
 			const logoutResponse = await app.inject({
 				method: 'GET',
@@ -123,11 +124,20 @@ describe('Auth routes', () => {
 				headers: {
 					authorization: loginToken,
 				},
+				cookies: {
+					accessToken: loginCookie.value,
+				},
 			});
 
 			expect(logoutResponse.statusCode).toBe(204);
 			const logoutToken = logoutResponse.headers.authorization;
 			expect(logoutToken).toBeUndefined();
+
+			expect(logoutResponse.cookies).toHaveLength(1);
+			const logoutCookie = logoutResponse.cookies[0];
+			expect(logoutCookie.name).toBe('accessToken');
+			expect(logoutCookie.value).toBe('');
+			expect(logoutCookie.maxAge).toBe(0);
 
 			const protectedResponse = await app.inject({
 				method: 'GET',
