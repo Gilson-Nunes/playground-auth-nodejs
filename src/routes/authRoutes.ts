@@ -1,5 +1,6 @@
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { loginController } from '@/controllers/auth/loginController';
+import { logoutController } from '@/controllers/auth/logoutController';
 import { registerController } from '@/controllers/auth/registerController';
 import { basicAuthHook } from '@/hooks/basicAuthHook';
 
@@ -8,14 +9,5 @@ export const authRoutes = (app: FastifyInstance) => {
 
 	app.post('/login', loginController);
 
-	app.get(
-		'/logout',
-		{
-			onRequest: basicAuthHook,
-		},
-		async (_request: FastifyRequest, reply: FastifyReply) => {
-			reply.clearCookie('accessToken', { path: '/' });
-			reply.status(204).send();
-		},
-	);
+	app.get('/logout', { onRequest: basicAuthHook }, logoutController);
 };
