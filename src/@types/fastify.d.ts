@@ -5,4 +5,7 @@ declare module 'fastify' {
 	interface FastifyInstance {
 		db: Pool;
 	}
+	interface FastifyRequest {
+		db: Pool;
+	}
 }
