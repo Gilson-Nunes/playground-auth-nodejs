@@ -64,6 +64,14 @@ export const authRoutes = (app: FastifyInstance) => {
 					'utf8',
 				).toString('base64')}`;
 				reply.header('Authorization', token);
+				reply.setCookie('accessToken', token, {
+					path: '/',
+					secure: process.env.NODE_ENV === 'production',
+					httpOnly: true,
+					sameSite: 'strict',
+					maxAge: 1800,
+				});
+
 				reply.status(200).send({ data: 'User logged' });
 			} catch (error) {
 				if (error instanceof DatabaseError) {
