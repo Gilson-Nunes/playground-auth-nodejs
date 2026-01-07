@@ -72,6 +72,14 @@ describe('Auth routes', () => {
 				'utf8',
 			).toString('base64')}`;
 			expect(response.headers.authorization).toBe(expectedToken);
+
+			expect(response.cookies).toHaveLength(1);
+			const cookie = response.cookies[0];
+			expect(cookie.name).toBe('accessToken');
+			expect(cookie.value).toBe(expectedToken);
+			expect(cookie.path).toBe('/');
+			expect(cookie.httpOnly).toBe(true);
+			expect(cookie.sameSite).toBe('Strict');
 		});
 
 		it('should not login a not registered user', async () => {
