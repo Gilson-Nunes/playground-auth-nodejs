@@ -1,4 +1,5 @@
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import { basicAuthHook } from '@/hooks/basicAuthHook';
 
 export const apiRoutes = (app: FastifyInstance) => {
 	app.get('/', async (_request: FastifyRequest, reply: FastifyReply) => {
@@ -8,8 +9,7 @@ export const apiRoutes = (app: FastifyInstance) => {
 	app.get(
 		'/protected',
 		{
-			onRequest: (_request: FastifyRequest, reply: FastifyReply) =>
-				reply.status(401).send({ data: 'Access denied' }),
+			onRequest: basicAuthHook,
 		},
 		async (_request: FastifyRequest, reply: FastifyReply) => {
 			reply.status(200).send({ data: 'Content protected' });
