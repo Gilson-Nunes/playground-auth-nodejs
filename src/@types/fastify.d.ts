@@ -2,7 +2,7 @@ import 'fastify';
 import type { Pool } from 'pg';
 
 declare module 'fastify' {
-	interface FastifyInstance {
+	interface FastifyRequest {
 		db: Pool;
 	}
 }

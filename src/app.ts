@@ -11,7 +11,10 @@ export function serverBuild(opts: FastifyServerOptions = {}) {
 		secret: process.env.COOKIE_SECRET,
 	});
 
-	app.decorate('db', getDbPool());
+	const db = getDbPool();
+	app.decorateRequest('db', {
+		getter: () => db,
+	});
 
 	app.register(authRoutes);
 	app.register(apiRoutes);
